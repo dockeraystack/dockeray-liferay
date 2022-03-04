@@ -28,6 +28,7 @@ ENV DOCKERIZE_VERSION="v0.6.1" \
     JAVA_VERSION="zulu11"
 
 COPY files /mnt/liferay/files
+COPY scripts /mnt/liferay/scripts
 
 USER root
 
