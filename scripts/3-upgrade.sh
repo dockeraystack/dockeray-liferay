@@ -30,10 +30,10 @@ if [ "$LIFERAY_RUN_UPGRADE" = true ]; then
     LOCK_FILE="$LIFERAY_HOME/data/upgrade-$ENVIRONMENT.lock"
     if [ ! -f "$LOCK_FILE" ]; then
         echo $HOSTNAME > "$LOCK_FILE"
-        echo "indexReadOnly=\"true\"" > $LIFERAY_HOME/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
+        echo "indexReadOnly=\"true\"" > $LIFERAY_HOME/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
         "$DB_UPGRADE_CLIENT_FOLDER/db_upgrade.sh"
         rm "$LOCK_FILE"
-        rm $LIFERAY_HOME/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
+        rm $LIFERAY_HOME/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
     else
         while [ -f "$LOCK_FILE" ]; do
             UPGRADE_HOSTNAME=$(cat "$LOCK_FILE")
