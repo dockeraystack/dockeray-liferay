@@ -15,9 +15,6 @@
 # limitations under the License.
 #
 
-
-sleep 30
-
 set -o errexit
 
 if [ "$LIFERAY_RUN_UPGRADE" = true ]; then
