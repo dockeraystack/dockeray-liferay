@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM liferay/portal:7.4.2-ga3
+FROM liferay/portal:7.4.1-ga2
 
 MAINTAINER Thiago Moreira <tmoreira2020@gmail.com>
 
@@ -32,7 +32,7 @@ COPY scripts /mnt/liferay/scripts
 
 USER root
 
-RUN apt-get install -y wget curl unzip tar gzip
+RUN apk add wget curl unzip tar gzip
 
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
