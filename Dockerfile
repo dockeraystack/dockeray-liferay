@@ -32,7 +32,8 @@ COPY scripts /mnt/liferay/scripts
 
 USER root
 
-RUN apt-get install -y wget curl unzip tar gzip mysql-client
+RUN apt-get update -y \
+    && apt-get install -y wget curl unzip tar gzip mysql-client
 
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
