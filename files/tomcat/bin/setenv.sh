@@ -17,7 +17,22 @@
 TOMCAT_HOME=/opt/liferay/tomcat
 CATALINA_HOME=$TOMCAT_HOME
 
-CATALINA_OPTS="$CATALINA_OPTS -Dcompany-id-properties=true -Dfile.encoding=UTF-8 -Duser.timezone=GMT -Djava.net.preferIPv4Stack=true -Dvirtual.host.mapping=$DOMAIN_PREFIXES -Dvirtual.host.default.prefix=$DEFAULT_PREFIX -Dtarget.environment=$ENVIRONMENT -Dspring.profiles.active=$ENVIRONMENT -Djdbc.debug.leak.connections=$JDBC_DEBUG_LEAK_CONNECTIONS"
-CATALINA_OPTS="$CATALINA_OPTS -Djava.security.auth.login.config=$CATALINA_HOME/conf/jaas.config -Djava.awt.headless=true -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES=false -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeAwareParserConfiguration"
-CATALINA_OPTS="$CATALINA_OPTS -server -Xmx4096m"
-CATALINA_OPTS="$CATALINA_OPTS -Xlog:gc=trace:file=/opt/liferay/tomcat/logs/gc.log:uptimemillis,pid:filecount=5,filesize=1m "
+
+
+CATALINA_OPTS_BASIC=${CATALINA_OPTS_BASIC:-"-server -XX:+AlwaysPreTouch -Dfile.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Duser.country=US -Duser.language=en -Duser.timezone=GMT -Djava.awt.headless=true "}
+
+CATALINA_OPTS_ENVIRONMENT=${CATALINA_OPTS_ENVIRONMENT:-"-Dvirtual.host.mapping=$DOMAIN_PREFIXES -Dvirtual.host.default.prefix=$DEFAULT_PREFIX -Dtarget.environment=$ENVIRONMENT -Dspring.profiles.active=$ENVIRONMENT -Djdbc.debug.leak.connections=$JDBC_DEBUG_LEAK_CONNECTIONS "}
+
+CATALINA_OPTS_TOMCAT=${CATALINA_OPTS_TOMCAT:-"-Djava.security.auth.login.config=$CATALINA_HOME/conf/jaas.config -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES=false -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeAwareParserConfiguration "}
+
+CATALINA_OPTS_GC_LOGGING_FILE=${CATALINA_OPTS_GC_LOGGING_FILE:-"-Xlog:gc*,gc+ref=debug,gc+heap=debug,gc+age=trace:file=$CATALINA_HOME/logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=20m "}
+
+CATALINA_OPTS_GC=${CATALINA_OPTS_GC:-"-XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:ParallelGCThreads=4 -XX:ConcGCThreads=3 -XX:NewSize=768m -XX:MaxNewSize=768m -XX:SurvivorRatio=6 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=15 -XX:InitialCodeCacheSize=64m -XX:ReservedCodeCacheSize=96m "}
+
+CATALINA_OPTS_METASPACE=${CATALINA_OPTS_METASPACE:-"-XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=1g "}
+
+CATALINA_OPTS_OOM=${CATALINA_OPTS_OOM:-"-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/liferay/data/heap-dump "}
+
+CATALINA_OPTS_HEAP=${CATALINA_OPTS_HEAP:-"-Xms4096m -Xmx4096m "}
+
+CATALINA_OPTS="$CATALINA_OPTS_BASIC $CATALINA_OPTS_ENVIRONMENT $CATALINA_OPTS_TOMCAT $CATALINA_OPTS_GC_LOGGING_FILE $CATALINA_OPTS_GC $CATALINA_OPTS_OOM $CATALINA_OPTS_HEAP"
