@@ -18,8 +18,7 @@ FROM liferay/portal:7.4.3.42-ga42
 
 MAINTAINER Thiago Moreira <tmoreira2020@gmail.com>
 
-ENV DOCKERIZE_VERSION="v0.6.1" \
-    LIFERAY_HOME="/opt/liferay" \
+ENV LIFERAY_HOME="/opt/liferay" \
     TOMCAT_HOME="/opt/liferay/tomcat" \
     DOMAIN_PREFIXES="www=dev-www" \
     DEFAULT_PREFIX="dev" \
@@ -27,17 +26,19 @@ ENV DOCKERIZE_VERSION="v0.6.1" \
     JDBC_DEBUG_LEAK_CONNECTIONS="true" \
     JAVA_VERSION="zulu11"
 
+ARG TARGETARCH
+
 COPY files /mnt/liferay/files
 COPY scripts /mnt/liferay/scripts
+COPY dockerize-linux-$TARGETARCH-v0.6.1.tar.gz /tmp/dockerize.tar.gz
 
 USER root
 
 RUN apt-get update -y \
     && apt-get install -y wget curl unzip tar gzip mysql-client
 
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+RUN tar -C /usr/local/bin -xzvf /tmp/dockerize.tar.gz \
+    && rm /tmp/dockerize.tar.gz \
     && rm -rf /tmp/* /var/cache/apk/* 
 
 USER liferay:liferay
