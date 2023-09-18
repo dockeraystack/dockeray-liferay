@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM liferay/portal:7.4.3.72-ga72
+FROM liferay/portal:7.4.3.94-ga94
 
 MAINTAINER Thiago Moreira <tmoreira2020@gmail.com>
 
