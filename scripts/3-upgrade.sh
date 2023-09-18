@@ -28,7 +28,7 @@ if [ "$LIFERAY_RUN_UPGRADE" = true ]; then
     if [ ! -f "$LOCK_FILE" ]; then
         echo $HOSTNAME > "$LOCK_FILE"
         echo "indexReadOnly=\"true\"" > $LIFERAY_HOME/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
-        "$DB_UPGRADE_CLIENT_FOLDER/db_upgrade.sh"
+        "$DB_UPGRADE_CLIENT_FOLDER/db_upgrade_client.sh"
         rm "$LOCK_FILE"
         rm $LIFERAY_HOME/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.config
     else
